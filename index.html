@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <title>セット商品画像メーカー</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand"><span class="brand-mark">R<span>+</span></span><div><strong>セット商品画像メーカー</strong><small>EC / 商品画像合成ツール</small></div></div>
+      <span class="header-tag">330 × 420 px · PNG</span>
+    </div>
+  </header>
+  <main class="app">
+    <section class="left-panel">
+      <div class="heading"><span class="step">01</span><div><h1>商品画像を読み込む</h1><p>画像はブラウザ内のみで処理され、外部に送信されません。</p></div></div>
+      <div class="product-grid">
+        <article class="upload-card" id="card-0">
+          <div class="upload-heading"><span class="item-number">1</span><div><strong>購入商品</strong><small>左 または 上に配置</small></div></div>
+          <label class="dropzone" id="drop-0" for="file-0"><input type="file" id="file-0" accept="image/png,image/jpeg,image/webp,image/gif,image/avif"><img id="thumb-0" alt="購入商品の画像" hidden><span class="placeholder" id="placeholder-0"><span class="upload-icon">＋</span><strong>画像を選択</strong><small>クリック / ドラッグ＆ドロップ</small></span></label>
+          <div class="filename" id="filename-0">未選択</div>
+          <div class="quantity-row"><label for="quantity-0">本数・個数</label><input id="quantity-0" type="number" value="1" min="1" max="24" inputmode="numeric"></div>
+          <label class="range-label" for="scale-0"><span>表示サイズ</span><output id="scale-value-0">100%</output></label><input class="range" type="range" id="scale-0" min="40" max="160" value="100" step="5">
+        </article>
+        <article class="upload-card" id="card-1">
+          <div class="upload-heading"><span class="item-number">2</span><div><strong>サービス商品</strong><small>右 または 下に配置</small></div></div>
+          <label class="dropzone" id="drop-1" for="file-1"><input type="file" id="file-1" accept="image/png,image/jpeg,image/webp,image/gif,image/avif"><img id="thumb-1" alt="サービス商品の画像" hidden><span class="placeholder" id="placeholder-1"><span class="upload-icon">＋</span><strong>画像を選択</strong><small>クリック / ドラッグ＆ドロップ</small></span></label>
+          <div class="filename" id="filename-1">未選択</div>
+          <div class="quantity-row"><label for="quantity-1">本数・個数</label><input id="quantity-1" type="number" value="1" min="1" max="24" inputmode="numeric"></div>
+          <label class="range-label" for="scale-1"><span>表示サイズ</span><output id="scale-value-1">100%</output></label><input class="range" type="range" id="scale-1" min="40" max="160" value="100" step="5">
+        </article>
+      </div>
+      <div class="heading second-heading"><span class="step">02</span><div><h2>レイアウトを調整</h2><p>自動配置後、プレビューの商品をドラッグして位置調整できます。</p></div></div>
+      <section class="controls-card">
+        <div class="control-title">配置方法</div>
+        <div class="segmented" role="group" aria-label="配置方法"><button type="button" class="selected" data-layout="auto" aria-pressed="true">自動</button><button type="button" data-layout="side" aria-pressed="false">左右</button><button type="button" data-layout="stack" aria-pressed="false">上下</button></div>
+        <div class="settings-grid">
+          <label class="switch-row"><input id="show-plus" type="checkbox" checked><span>「＋」記号を表示</span></label>
+          <label class="switch-row"><input id="trim-whitespace" type="checkbox" checked><span>画像周囲の余白を整理</span></label>
+          <label class="switch-row"><input id="show-count" type="checkbox"><span>本数を「×6」の形式で表示</span></label>
+        </div>
+        <div class="note"><strong>元画像の保護：</strong>画像の描き直し・色変更・ラベル修正は行いません。「余白を整理」は外周の透明・白い領域のみを表示範囲から除く処理です。白い商品などで欠ける場合はオフにしてください。</div>
+        <div class="actions"><button type="button" class="button secondary" id="reset-position">位置・サイズをリセット</button><button type="button" class="button secondary" id="swap-disabled" title="添付順序を守るため、画像の入れ替えは行いません" disabled>順番固定</button></div>
+      </section>
+    </section>
+    <aside class="preview-panel">
+      <div class="preview-header"><div><h2>完成イメージ</h2><p id="layout-status">画像を2枚選択してください</p></div><span class="size-tag">330 × 420</span></div>
+      <div class="preview-backdrop"><div class="canvas-shell"><canvas id="preview" width="330" height="420" aria-label="セット商品画像のプレビュー"></canvas></div></div>
+      <div class="preview-footnote">白背景 / RGB相当（ブラウザのCanvas） / PNG</div>
+      <button type="button" class="button primary" id="download" disabled><span class="download-icon">↓</span> PNG画像をダウンロード</button>
+      <p class="helper" id="message" role="status">画像を2枚読み込むと、レイアウトが自動生成されます。</p>
+    </aside>
+  </main>
+  <footer>セット商品画像メーカー · ローカル処理 / 画像はアップロードされません</footer>
+</body>
+</html>
