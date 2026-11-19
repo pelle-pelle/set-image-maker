@@ -1,13 +1,108 @@
-<!doctype html>
-<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f7f8fa"><title>セット商品画像メーカー v2</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head>
-<body><header class="site-header"><div class="header-inner"><div class="brand"><span class="brand-mark">R<span>+</span></span><div><strong>セット商品画像メーカー <small class="version">v2</small></strong><small>複数種類の商品に対応</small></div></div><span class="header-tag">330 × 420 px · PNG</span></div></header>
-<main class="app"><section class="left-panel"><div class="heading"><span class="step">01</span><div><h1>商品画像を登録</h1><p>購入商品・サービス商品に、それぞれ複数種類を追加できます。画像は外部に送信されません。</p></div></div>
-<div class="product-grid multi-grid"><section class="group-panel"><div class="group-heading"><div><strong>購入商品</strong><small>左 または 上に表示</small></div><span id="purchase-summary" class="group-summary">0種類</span></div><div id="purchase-list" class="product-list"></div><button type="button" class="button add-button" id="add-purchase">＋ 購入商品を追加</button></section><section class="group-panel"><div class="group-heading"><div><strong>サービス商品</strong><small>右 または 下に表示</small></div><span id="service-summary" class="group-summary">0種類</span></div><div id="service-list" class="product-list"></div><button type="button" class="button add-button" id="add-service">＋ サービス商品を追加</button></section></div>
-<div class="heading second-heading"><span class="step">02</span><div><h2>レイアウトを調整</h2><p>プレビュー上の商品をドラッグして種類ごとに位置を微調整できます。</p></div></div>
-<section class="controls-card"><div class="control-title">配置方法</div><div class="segmented" role="group" aria-label="配置方法"><button type="button" class="selected" data-layout="auto" aria-pressed="true">自動</button><button type="button" data-layout="side" aria-pressed="false">左右</button><button type="button" data-layout="stack" aria-pressed="false">上下</button></div>
-<div class="settings-grid"><label class="switch-row"><input id="show-plus" type="checkbox" checked><span>「＋」記号を表示</span></label><label class="switch-row"><input id="trim-whitespace" type="checkbox" checked><span>画像周囲の白・透明余白を整理</span></label><label class="switch-row"><input id="show-count" type="checkbox"><span>各商品の本数を「×6」の形式で表示</span></label></div>
-<div class="note"><strong>元画像の保護：</strong>商品画像は描き直さず、縦横比を維持して合成します。余白整理は周囲の白・透明部分を検出して切り抜きます。白い商品が欠ける場合はオフにしてください。種類・本数が増えると1点の表示サイズは小さくなります。</div>
-<div class="actions"><button type="button" class="button secondary" id="reset-position">位置・サイズをリセット</button><button type="button" class="button secondary" id="reset-all">すべてクリア</button></div></section></section>
-<aside class="preview-panel"><div class="preview-header"><div><h2>完成イメージ</h2><p id="layout-status">左右のグループに画像を登録してください</p></div><span class="size-tag">330 × 420</span></div><div class="preview-backdrop"><div class="canvas-shell"><canvas id="preview" width="330" height="420" aria-label="セット商品画像プレビュー"></canvas></div></div><div class="preview-footnote">白背景 / 330×420px / PNG</div><button type="button" class="button primary" id="download" disabled><span class="download-icon">↓</span> PNG画像をダウンロード</button><p class="helper" id="message" role="status">購入商品とサービス商品をそれぞれ1種類以上登録してください。</p></aside></main>
-<footer>セット商品画像メーカー v2 · ローカル画像処理</footer>
-</body></html>
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="#f7f8fa" name="theme-color"/>
+    <title>セット商品画像メーカー v2</title>
+    <link href="./style.css" rel="stylesheet"/>
+    <script defer="" src="./script.js"></script>
+  </head>
+  <body>
+    <!-- ヘッダー -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <span class="brand-mark">R<span>+</span></span>
+          <div>
+            <strong>セット商品画像メーカー <small class="version">v2</small></strong>
+            <small>複数種類の商品に対応</small>
+          </div>
+        </div>
+        <span class="header-tag">330 × 420 px · PNG</span>
+      </div>
+    </header>
+    <!-- メイン操作画面 -->
+    <main class="app">
+      <section class="left-panel">
+        <div class="heading">
+          <span class="step">01</span>
+          <div>
+            <h1>商品画像を登録</h1>
+            <p>購入商品・サービス商品に、それぞれ複数種類を追加できます。画像は外部に送信されません。</p>
+          </div>
+        </div>
+        <!-- 購入商品・サービス商品の登録 -->
+        <div class="product-grid multi-grid">
+          <section class="group-panel">
+            <div class="group-heading">
+              <div>
+                <strong>購入商品</strong>
+                <small>左 または 上に表示</small>
+              </div>
+              <span class="group-summary" id="purchase-summary">0種類</span>
+            </div>
+            <div class="product-list" id="purchase-list"></div>
+            <button class="button add-button" id="add-purchase" type="button">＋ 購入商品を追加</button>
+          </section>
+          <section class="group-panel">
+            <div class="group-heading">
+              <div>
+                <strong>サービス商品</strong>
+                <small>右 または 下に表示</small>
+              </div>
+              <span class="group-summary" id="service-summary">0種類</span>
+            </div>
+            <div class="product-list" id="service-list"></div>
+            <button class="button add-button" id="add-service" type="button">＋ サービス商品を追加</button>
+          </section>
+        </div>
+        <div class="heading second-heading">
+          <span class="step">02</span>
+          <div>
+            <h2>レイアウトを調整</h2>
+            <p>プレビュー上の商品をドラッグして種類ごとに位置を微調整できます。</p>
+          </div>
+        </div>
+        <!-- レイアウト設定 -->
+        <section class="controls-card">
+          <div class="control-title">配置方法</div>
+          <div aria-label="配置方法" class="segmented" role="group">
+            <button aria-pressed="true" class="selected" data-layout="auto" type="button">自動</button>
+            <button aria-pressed="false" data-layout="side" type="button">左右</button>
+            <button aria-pressed="false" data-layout="stack" type="button">上下</button>
+          </div>
+          <div class="settings-grid">
+            <label class="switch-row"><input checked="" id="show-plus" type="checkbox"/><span>「＋」記号を表示</span></label>
+            <label class="switch-row"><input checked="" id="trim-whitespace" type="checkbox"/><span>画像周囲の白・透明余白を整理</span></label>
+            <label class="switch-row"><input id="show-count" type="checkbox"/><span>各商品の本数を「×6」の形式で表示</span></label>
+          </div>
+          <div class="note"><strong>元画像の保護：</strong>商品画像は描き直さず、縦横比を維持して合成します。余白整理は周囲の白・透明部分を検出して切り抜きます。白い商品が欠ける場合はオフにしてください。種類・本数が増えると1点の表示サイズは小さくなります。</div>
+          <div class="actions">
+            <button class="button secondary" id="reset-position" type="button">位置・サイズをリセット</button>
+            <button class="button secondary" id="reset-all" type="button">すべてクリア</button>
+          </div>
+        </section>
+      </section>
+      <!-- 完成画像のプレビューと保存 -->
+      <aside class="preview-panel">
+        <div class="preview-header">
+          <div>
+            <h2>完成イメージ</h2>
+            <p id="layout-status">左右のグループに画像を登録してください</p>
+          </div>
+          <span class="size-tag">330 × 420</span>
+        </div>
+        <div class="preview-backdrop">
+          <div class="canvas-shell">
+            <canvas aria-label="セット商品画像プレビュー" height="420" id="preview" width="330"></canvas>
+          </div>
+        </div>
+        <div class="preview-footnote">白背景 / 330×420px / PNG</div>
+        <button class="button primary" disabled="" id="download" type="button"><span class="download-icon">↓</span> PNG画像をダウンロード</button>
+        <p class="helper" id="message" role="status">購入商品とサービス商品をそれぞれ1種類以上登録してください。</p>
+      </aside>
+    </main>
+    <footer>セット商品画像メーカー v2 · ローカル画像処理</footer>
+  </body>
+</html>
